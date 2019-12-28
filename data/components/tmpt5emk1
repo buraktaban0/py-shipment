@@ -1,0 +1,4 @@
+
+import rope.base.project
+myproject = rope.base.project.Project('D:/pygletgame')
+myproject.close()
