@@ -64,7 +64,7 @@ class Mesh:
 
 	def draw(self):
 		graphics.bind_vao(self._vao)
-		glDrawElements(GL_TRIANGLES, self.triCount(), GL_UNSIGNED_INT, None)
+		glDrawElementsInstanced(GL_TRIANGLES, self.triCount(), GL_UNSIGNED_INT, None)
 		return
 			
 		glBegin(GL_TRIANGLES)
@@ -85,7 +85,7 @@ def init():
 
 
 
-def quad(size = 1):
+def quad(size = 1, upload = True):
 	size *= 0.5
 	verts = (np.array([
 		vec3d.left() + vec3d.down(), 
@@ -95,10 +95,11 @@ def quad(size = 1):
 	tris = [0, 1, 2, 0, 2, 3]
 	m = Mesh(verts, tris)
 	m.generateUVs()
-	m.upload()
+	if upload:
+		m.upload()
 	return m
 
-def fromPoly(p, size = 1.0):
+def fromPoly(p, size = 1.0, upload = True):
 	verts = [vec3d.fromList(pi) * size if type(pi) != vec3d else pi * size for pi in p]
 	triCount = len(verts) - 2
 	tris = []
@@ -108,7 +109,8 @@ def fromPoly(p, size = 1.0):
 		tris.append(i+2)
 	m = Mesh(verts, tris)
 	m.generateUVs()
-	m.upload()
+	if upload:
+		m.upload()
 	return m
 
 
@@ -121,7 +123,7 @@ def serialize(mesh : Mesh):
 
 
 
-def combine(ms):
+def combine(ms, upload = True):
 	verts = []
 	colors = []
 	uvs = []
@@ -137,5 +139,6 @@ def combine(ms):
 	m.uvs = uvs
 	m.colors = colors
 	m.generateUVs()
-	m.upload()
+	if upload:
+		m.upload()
 	return m	

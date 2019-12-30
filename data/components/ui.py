@@ -93,7 +93,7 @@ class UIElement:
 		size = self.size * graphics.display_size.x 
 
 		pos = container_size * self.position 
-		anchoredPos = pos - size * self.anchor
+		anchoredPos = pos# - size * self.anchor
 
 
 		glPushMatrix()
@@ -101,18 +101,18 @@ class UIElement:
 		graphics.translate(anchoredPos)
 
 
-		mat = glGetFloatv(GL_PROJECTION_MATRIX)
+		#mat = glGetFloatv(GL_PROJECTION_MATRIX)
 
 		graphics.scale(size)
 
 
 		self.draw_self()
 
-		glLoadIdentity()
-		glMultMatrixf(mat)
+		#glLoadIdentity()
+		#glMultMatrixf(mat)
  
-		for child in self.children:
-			child.draw(size)
+		#for child in self.children:
+		#	child.draw(size)
 
 		glPopMatrix()
 
@@ -165,11 +165,12 @@ class UIImage(UIElement):
 
 	def draw_self(self):
 
-
+		'''
 		glEnable(GL_TEXTURE_2D)
 		graphics.bind_texture(self.tex)
 		
 		graphics.bind_program(self.shader)
+		'''
 
 
 		_tint_loc = glGetUniformLocation(self.shader, 'tint')
